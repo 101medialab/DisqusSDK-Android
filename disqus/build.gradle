@@ -19,6 +19,9 @@ android {
 }
 repositories {
     maven { url "http://dl.bintray.com/jjhesk/maven" }
+    flatDir {
+        dirs '../libs'
+    }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -31,8 +34,10 @@ dependencies {
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     /* customized jjhesk's ezwebview */
-    // compile 'com.hkm.ezwebview:ezwebviewv:1.3.7'
-    compile project(':ezwebview')
+    fileTree(dir: '../libs', includes: ['*.aar']).each {
+        File file ->
+            dependencies.add('compile', [name: file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }, ext: 'aar'])
+    }
 
     /* dependencies of ezwebview */
     compile('com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE')

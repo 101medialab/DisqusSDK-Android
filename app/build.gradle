@@ -40,6 +40,9 @@ android {
 }
 repositories {
     maven { url 'https://dl.bintray.com/jjhesk/maven' }
+    flatDir {
+        dirs '../libs'
+    }
 }
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
@@ -48,10 +51,13 @@ dependencies {
     compile supportDependencies.appCompat
     compile supportDependencies.support
 
-    //  compile 'DisqusSDK-Android:disqus:0.2.5'
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
-    compile 'com.squareup.picasso:picasso:2.5.0'
+
+    fileTree(dir: '../libs', includes: ['*.aar']).each {
+        File file ->
+            dependencies.add('compile', [name: file.name.lastIndexOf('.').with { it != -1 ? file.name[0..<it] : file.name }, ext: 'aar'])
+    }
 
     debugCompile 'me.drakeet.library:crashwoodpecker:0.9.7'
     releaseCompile 'me.drakeet.library:crashwoodpecker-do-nothing:0.9.7'
