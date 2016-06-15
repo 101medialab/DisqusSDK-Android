@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
 
 import com.hkm.disqus.api.ApiClient;
 import com.hkm.disqus.api.ApiConfig;
@@ -12,7 +11,6 @@ import com.hkm.disqus.api.AuthTokenServiceManager;
 import com.hkm.disqus.api.exception.ApiException;
 import com.hkm.disqus.api.model.Response;
 import com.hkm.disqus.api.model.posts.Post;
-import com.hkm.disqus.api.resources.AccessTokenService;
 import com.hkm.disqus.application.AuthorizeActivity;
 
 import java.util.List;

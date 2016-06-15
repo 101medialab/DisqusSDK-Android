@@ -1,1 +1,1 @@
-include ':app', ':disqus'
+include ':app', ':disqus', ':ezwebview'

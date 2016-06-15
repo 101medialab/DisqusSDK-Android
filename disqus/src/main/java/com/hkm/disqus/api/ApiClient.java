@@ -314,8 +314,8 @@ public class ApiClient {
         return mLoginAdapter.create(AccessTokenService.class);
     }
 
-    public AuthTokenServiceManager createAuthenticationManager(Context contex) {
-        return new AuthTokenServiceManager(contex, createTokenService(), _config);
+    public AuthTokenServiceManager createAuthenticationManager(Context context) {
+        return new AuthTokenServiceManager(context, createTokenService(), _config);
     }
 
     public ApiConfig getConfiguration() {
