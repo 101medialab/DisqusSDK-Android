@@ -14,7 +14,7 @@ public class webintegrationTest extends AppCompatActivity {
     protected void statFragmentLogin() {
         getFragmentManager().beginTransaction().add(
                 R.id.fragment_id_a,
-                WiDisquscomment.newInstance(WiDisquscomment.B(
+                WiDisquscomment.newInstance(WiDisquscomment.createBundle(
                         "293393",
                         "http://hypetrak.com/2015/11/tbd-jay-electronica-jai-paul-and-the-allure-of-the-unreleased-masterpiece/",
                         "hypetrak"

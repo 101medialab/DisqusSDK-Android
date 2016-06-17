@@ -86,22 +86,6 @@ public class AuthorizeActivity extends AppCompatActivity implements AuthTokenSer
         // binder = ((BinderProvider) getParentFragment()).createBinder(this);
     }
 
-    /*  @Override
-      public void onSuccess(AccessToken accessToken) {
-          // Create a result intent
-          Intent data = new Intent();
-          data.putExtra(EXTRA_ACCESS_TOKEN, accessToken);
-          setResult(RESULT_OK, data);
-          finish();
-      }
-
-      @Override
-      public void onFailure() {
-          Toast.makeText(this, getResources().getString(R.string.failurelogin), Toast.LENGTH_LONG);
-          setResult(RESULT_CANCELED);
-          finish();
-      }
-  */
     @Override
     public void onBackPressed() {
         setResult(RESULT_CANCELED);
@@ -143,6 +127,12 @@ public class AuthorizeActivity extends AppCompatActivity implements AuthTokenSer
     public void onLogout() {
         /** Not used**/
         Log.d(TAG, "onLogout");
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState) {
+        outState.putAll(getIntent().getExtras());
+        super.onSaveInstanceState(outState);
     }
 
     @SuppressLint("ValidFragment")
