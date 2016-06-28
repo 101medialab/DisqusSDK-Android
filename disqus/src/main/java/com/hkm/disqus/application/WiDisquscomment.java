@@ -1,15 +1,19 @@
 package com.hkm.disqus.application;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 
-import com.hkm.ezwebview.BuildConfig;
+import com.hkm.disqus.BuildConfig;
+import com.hkm.ezwebview.Util.CacheMode;
 import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
+import com.hkm.ezwebview.webviewclients.ChromeLoader;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 
 /**
@@ -61,10 +65,37 @@ public class WiDisquscomment extends BasicWebViewNormal {
         return bu.build().toString();
     }
 
-    private class GM extends PaymentClient {
-        public GM(Activity context, WebView fmWebView) {
+    private class DisqusClient extends PaymentClient {
+        public DisqusClient(Activity context, WebView fmWebView) {
             super(context, fmWebView);
         }
+
+        private boolean isLoginSuccessUrl(String url) {
+            url = url.trim();
+            return url.startsWith("http://disqus.com/next/login-success/")||
+                    url.startsWith("https://disqus.com/next/login-success/") ||
+                    url.matches("^https?:\\/\\/disqus\\.com\\/_ax\\/(twitter|google|facebook)\\/complete.*");
+        }
+
+        @Override
+        public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
+            Log.e(TAG, String.format("received error on loading disqus page; errorCode=%d; failingUrl=%s; description=%s", errorCode, failingUrl, description));
+            super.onReceivedError(view, errorCode, description, failingUrl);
+        }
+
+        @Override
+        public void onPageFinished(WebView view, String url) {
+            super.onPageFinished(view, url);
+
+            if (BuildConfig.DEBUG) {
+                Log.d(TAG, String.format("onPageFinished; url=%s", url));
+            }
+
+            if (isLoginSuccessUrl(url)) {
+                view.loadUrl(getDisqusUrl());
+            }
+        }
+
         @Override
         protected boolean interceptUrl(WebView view, String url) {
             return false;
@@ -74,6 +105,7 @@ public class WiDisquscomment extends BasicWebViewNormal {
     @Override
     public void onViewCreated(View v, Bundle b) {
         super.onViewCreated(v, b);
+        loadLandingPage();
     }
 
     public void loadLandingPage() {
@@ -82,17 +114,39 @@ public class WiDisquscomment extends BasicWebViewNormal {
         Log.d(TAG, String.format("loading disqus page: %s", disqusUrl));
 
         try {
-            Fx9C.setup_payment_gateway(
-                    new GM(getActivity(), block),
-                    framer,
-                    block,
-                    betterCircleBar,
-                    getDisqusUrl(),
-                    "",
-                    3000
-            );
+            Fx9C
+                    .with(getActivity())
+                    .setAllowHTTPSMixedContent(true)
+                    .setAnimationDuration(3000)
+                    .setCacheMode(CacheMode.LOAD_NO_CACHE)
+                    .setOnCloseWindowCallback(new ChromeLoader.OnCloseWindowCallback() {
+                        /* that happens after successful sign-on */
+                        @Override
+                        public void onCloseWindow(WebView webView) {
+                            block.loadUrl(getDisqusUrl());
+                        }
+                    })
+                    .setJavaScriptEnabled(true)
+                    .setWebViewHolder(framer)
+                    .setWebView(block)
+                    .setWebViewClient(new DisqusClient(getActivity(), block))
+                    .setProgressBar(betterCircleBar)
+                    .loadUrl(getDisqusUrl());
         } catch (Exception e) {
             Log.e(TAG, "failed to load the disqus page", e);
         }
+    }
+
+    public void onBackPressed() {
+        if (block.canGoBack()) {
+            block.goBack();
+        }
+    }
+
+    public void openInChrome() {
+        Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(block.getUrl()));
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        intent.setPackage("com.android.chrome");
+        startActivity(intent);
     }
 }

@@ -2,5 +2,6 @@
     <string name="app_name">disqus SDK Demo HKM</string>
     <string name="new_game">List current Post</string>
     <string name="loginintent">Login And Post</string>
+    <string name="open_in_chrome">Open in Chrome</string>
 
 </resources>
