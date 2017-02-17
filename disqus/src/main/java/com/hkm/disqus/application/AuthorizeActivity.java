@@ -59,7 +59,7 @@ public class AuthorizeActivity extends AppCompatActivity implements AuthTokenSer
 
     protected void check_status_bar_height() {
         if (!getIntent().getExtras().getBoolean(EXTRA_STATUS_BAR_TOP, true)) {
-            View statusbar = (View) findViewById(R.id.disqus_status_bar_login);
+            View statusbar = findViewById(R.id.disqus_status_bar_login);
             statusbar.setVisibility(View.GONE);
         }
     }

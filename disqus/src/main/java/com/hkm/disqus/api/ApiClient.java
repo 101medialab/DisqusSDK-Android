@@ -19,6 +19,7 @@ import android.content.Context;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.hkm.disqus.BuildConfig;
 import com.hkm.disqus.DisqusConstants;
 import com.hkm.disqus.api.exception.APIIncorrectException;
 import com.hkm.disqus.api.exception.ApiException;
@@ -68,7 +69,7 @@ public class ApiClient {
     /**
      * User agent
      */
-    private static final String USER_AGENT = "Disqus Android/1.1";
+    private static final String USER_AGENT = String.format("Disqus Android/%s", BuildConfig.VERSION_NAME);
 
     /**
      * Rest adapter

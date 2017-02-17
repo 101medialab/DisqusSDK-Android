@@ -6,12 +6,17 @@
         android:allowBackup="true"
         android:configChanges="orientation|screenSize|fontScale|keyboard|keyboardHidden"
         android:label="@string/app_name">
-        <activity android:name="com.hkm.disqus.application.AuthorizeActivity"/>
+
+        <activity
+            android:name="com.hkm.disqus.application.AuthorizeActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar" />
+
         <receiver android:name=".api.RefreshTokenBroadcastReceiver">
             <intent-filter>
                 <action android:name="com.hkm.disqus.refresh_token" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

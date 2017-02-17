@@ -37,8 +37,10 @@ dependencies {
     compile supportDependencies.appCompat
     compile supportDependencies.support
 
+    compile 'org.apache.commons:commons-lang3:3.4'  /* because TextUtils doesn't work on unit test */
+
     compile 'com.squareup.okhttp:okhttp:2.3.0'
-    compile 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
 
     /* customized jjhesk's ezwebview */
@@ -48,7 +50,7 @@ dependencies {
     }
 
     /* dependencies of ezwebview */
-    compile('com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE')
+    compile 'com.lsjwzh:materialloadingprogressbar:0.5.8-RELEASE'
 }
 
 apply from: 'br.gradle'

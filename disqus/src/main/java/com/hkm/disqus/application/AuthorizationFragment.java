@@ -16,6 +16,8 @@ import com.hkm.ezwebview.Util.Fx9C;
 import com.hkm.ezwebview.app.BasicWebViewNormal;
 import com.hkm.ezwebview.webviewclients.PaymentClient;
 
+import org.apache.commons.lang3.StringUtils;
+
 import retrofit.RestAdapter;
 
 /**
@@ -133,7 +135,7 @@ public class AuthorizationFragment extends BasicWebViewNormal {
     private String getScopes() {
         String scope;
         try {
-            scope = AuthorizeUtils.buildScope(mScopes);
+            scope = StringUtils.join(mScopes, ',');
         } catch (Exception e) {
             scope = "read,write";
         }

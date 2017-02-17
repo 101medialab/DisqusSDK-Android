@@ -36,23 +36,6 @@ public class AuthorizeUtils {
     }
 
     /**
-     * Build a scope string from an array of scopes
-     *
-     * @param scopes as is
-     * @return as is
-     */
-    public static String buildScope(String[] scopes) {
-        StringBuilder builder = new StringBuilder();
-        for (int i = 0; i < scopes.length; i++) {
-            builder.append(scopes[i]);
-            if (i < scopes.length - 1) {
-                builder.append(',');
-            }
-        }
-        return builder.toString();
-    }
-
-    /**
      * Build uri for authorize requests
      *
      * @param clientId    as is
