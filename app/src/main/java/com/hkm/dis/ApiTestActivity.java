@@ -28,13 +28,13 @@ import retrofit.client.Response;
 /**
  * Created by hesk on 21/5/15.
  */
-public class mainTesting extends AppCompatActivity {
+public class ApiTestActivity extends AppCompatActivity {
 
-    public static String TAG = "gamestarthere";
+    private static String TAG = ApiTestActivity.class.getSimpleName();
     private TextView tvv;
     private String appending_post_content;
-    private String post_post_id = "1008680";
-    private String get_comment_id = "1008680 http://hypebeast.com/?p=1008680";
+    private String post_post_id = "754567";
+    private String get_comment_id = "754567 http://www.androidauthority.com/?p=754567";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,8 +70,7 @@ public class mainTesting extends AppCompatActivity {
         @Override
         public void failure(RetrofitError error) {
             addLine("===ERROR_RETOFIT===============================");
-            Log.d(TAG, error.getMessage());
-            addLine(error.getMessage());
+            Log.d(TAG, "failed to fetch post response", error);
             addLine("==============================================");
         }
     };
@@ -94,8 +93,6 @@ public class mainTesting extends AppCompatActivity {
         }
     };
 
-    // "1008680",
-    //  "1008680 http://hypebeast.com/?p=1008680",
     private void postPost(String postmessage, String thread_id) {
         if (getClient().getAuthManager().isAuthenticated()) {
             getClient().postPost(postmessage, post_post_id, return_cb);
@@ -107,11 +104,11 @@ public class mainTesting extends AppCompatActivity {
     }
 
     private void getPost() {
-        //"1008680 http://hypebeast.com/?p=1008680"
+        //"754567 http://www.androidauthority.com/?p=754567"
         try {
             getClient().getComments(get_comment_id, response_cb);
         } catch (ApiException e) {
-            e.printStackTrace();
+            Log.e(TAG, "failed to get comments", e);
         }
     }
 

@@ -13,13 +13,8 @@ public class DqUtil {
                 BuildConfig.DISQUS_API_KEY,
                 BuildConfig.DISQUS_DEFAULT_ACCESS,
                 RestAdapter.LogLevel.BASIC);
-        /**
-         * https://github.com/101medialab/Hypetrak-iOS-v2/blob/bbc3afc1349f49910c8b8f69ea2944f5440fc898/Hypetrak-iOS-v2/Model/ServerRequestManager.swift
-         */
 
         /**
-         *
-         * reference from iOS configurations
          * let urlRequestLink = "https://disqus.com/api/3.0/threads/set.json?forum=\(forumShortName)&api_key=\(apiKey)&thread=ident:\(postID)%20\(domain)/?p=\(postID)"
          */
 

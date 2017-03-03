@@ -13,14 +13,14 @@ import com.hkm.disqus.application.WiDisquscomment;
 /**
  * Created by hesk on 9/11/15.
  */
-public class WebIntegrationTestActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
 
-    private static final String TAG = WebIntegrationTestActivity.class.getSimpleName();
+    private static final String TAG = MainActivity.class.getSimpleName();
 
     /* change these values as you see fit */
-    private static final String DISQUS_URL = "http://www.android.sc/android-marshmallow-6-0-1-update-on-galaxy-s6-s6-edge-s6-edge-and-note-5/";
-    private static final String DISQUS_ID = "10358";
-    private static final String DISQUS_SHORTNAME = "androidsource";
+    private static final String DISQUS_URL = "http://www.androidauthority.com/wearables-market-grew-16-9-q4-2016-can-believe-754567/";
+    private static final String DISQUS_ID = "754567";
+    private static final String DISQUS_SHORTNAME = "androidauthority";
 
     private WiDisquscomment disqusFragment;
 
