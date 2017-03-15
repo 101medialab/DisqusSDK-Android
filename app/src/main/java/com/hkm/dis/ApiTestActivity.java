@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.hkm.disqus.DisqusClient;
+import com.hkm.disqus.api.ApiConfig;
 import com.hkm.disqus.api.exception.ApiException;
 import com.hkm.disqus.api.model.oauth2.AccessToken;
 import com.hkm.disqus.api.model.posts.Post;
@@ -22,6 +23,7 @@ import com.hkm.disqus.application.AuthorizeActivity;
 import java.util.List;
 
 import retrofit.Callback;
+import retrofit.RestAdapter;
 import retrofit.RetrofitError;
 import retrofit.client.Response;
 
@@ -29,12 +31,16 @@ import retrofit.client.Response;
  * Created by hesk on 21/5/15.
  */
 public class ApiTestActivity extends AppCompatActivity {
-
     private static String TAG = ApiTestActivity.class.getSimpleName();
+
+    private static String CONF_FORUM_NAME = "androidauthority";
+    private static String CONF_KEY_REFERRER = "http://androidauthority.com";
+
     private TextView tvv;
     private String appending_post_content;
     private String post_post_id = "754567";
     private String get_comment_id = "754567 http://www.androidauthority.com/?p=754567";
+    private ApiConfig apiConfig = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +61,21 @@ public class ApiTestActivity extends AppCompatActivity {
 
 
     protected DisqusClient getClient() {
-        return DisqusClient.getInstance(this, DqUtil.genConfig());
+        synchronized (this) {
+            if (apiConfig == null) {
+                apiConfig = new ApiConfig(
+                        BuildConfig.DISQUS_API_KEY,
+                        BuildConfig.DISQUS_DEFAULT_ACCESS,
+                        RestAdapter.LogLevel.FULL);
+                apiConfig
+                        .setForumName(CONF_FORUM_NAME)
+                        .setApiSecret(BuildConfig.DISQUS_SECRET)
+                        .setRedirectUri(BuildConfig.DISQUS_REDIRECT_URI)
+                        .setReferrer(CONF_KEY_REFERRER);
+            }
+        }
+
+        return DisqusClient.getInstance(this, apiConfig);
     }
 
 
@@ -63,7 +83,11 @@ public class ApiTestActivity extends AppCompatActivity {
         @Override
         public void success(com.hkm.disqus.api.model.Response<List<Post>> posts, Response response) {
             addLine("==POST LISTED=================================");
-            addLine(response.getBody() + " and the " + posts.data.size() + " items were found");
+            addLine(String.format("total num of posts: %d", posts.data.size()));
+            addLine("");
+            for (Post post: posts.data) {
+                addLine(String.format("%s: %s\n---", post.author.name, post.message));
+            }
             addLine("==============================================");
         }
 

@@ -16,6 +16,7 @@
 package com.hkm.disqus.api;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -48,6 +49,8 @@ import com.hkm.disqus.api.resources.Users;
 import com.hkm.disqus.api.resources.notes.Templates;
 import com.hkm.disqus.api.retrofitworker.Interceptor;
 
+import org.apache.commons.lang3.StringUtils;
+
 import retrofit.ErrorHandler;
 import retrofit.RequestInterceptor;
 import retrofit.RestAdapter;
@@ -59,6 +62,7 @@ import retrofit.converter.GsonConverter;
  * A wrapper round the Retrofit {@link RestAdapter}
  */
 public class ApiClient {
+    private static final String TAG = ApiClient.class.getSimpleName();
 
     /**
      * Base URL for all Disqus endpoints
@@ -129,30 +133,23 @@ public class ApiClient {
                         request.addHeader("User-Agent", USER_AGENT);
                         if (config != null) {
                             // Public/secret key query params
-                            if (config.getApiSecret() != null) {
-                                if (!config.getApiSecret().equalsIgnoreCase("null")) {
-                                    request.addQueryParam("api_secret", config.getApiSecret());
-                                }
-                            } else if (config.getApiKey() != null) {
-                                if (!config.getApiKey().equalsIgnoreCase("null")) {
-                                    request.addQueryParam("api_key", config.getApiKey());
-                                }
+                            if (StringUtils.isNotEmpty(config.getApiKey())) {
+                                request.addQueryParam("api_key", config.getApiKey());
+                            } else if (StringUtils.isNotEmpty(config.getApiSecret())) {
+                                Log.w(TAG, "api key is not defined; default to use api secret (not recommended)");
+                                request.addQueryParam("api_secret", config.getApiSecret());
                             } else {
-
+                                Log.w(TAG, "neither api key nor api secret is defined");
                             }
 
                             // Access token query param
-                            if (config.getAccessToken() != null) {
-                                if (!config.getAccessToken().equalsIgnoreCase("null")) {
-                                    request.addQueryParam("access_token", config.getAccessToken());
-                                }
+                            if (StringUtils.isNotEmpty(config.getAccessToken())) {
+                                request.addQueryParam("access_token", config.getAccessToken());
                             }
 
                             // Referrer
-                            if (config.getReferrer() != null) {
-                                if (!config.getReferrer().equalsIgnoreCase("null")) {
-                                    request.addHeader("Referer", config.getReferrer());
-                                }
+                            if (StringUtils.isNotEmpty(config.getReferrer())) {
+                                request.addHeader("Referer", config.getReferrer());
                             }
                         }
                     }

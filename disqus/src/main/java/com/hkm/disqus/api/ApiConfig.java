@@ -20,12 +20,15 @@ import android.os.Bundle;
 import com.hkm.disqus.api.exception.Check;
 import com.hkm.disqus.application.AuthorizeActivity;
 
+import java.io.Serializable;
+
 import static retrofit.RestAdapter.LogLevel;
 
 /**
  * Configuration options
  */
-public class ApiConfig {
+public class ApiConfig implements Serializable {
+    private static final long serialVersionUID = -7069085848959334618L;
 
     /**
      * Api key

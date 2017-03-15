@@ -51,6 +51,8 @@ dependencies {
     compile supportDependencies.appCompat
     compile supportDependencies.support
 
+    compile 'org.apache.commons:commons-lang3:3.1'
+
     compile 'com.squareup.okhttp:okhttp-urlconnection:2.3.0'
     compile 'com.squareup.retrofit:retrofit:1.9.0'
     compile 'me.drakeet.library:crashwoodpecker:2.1.1'
