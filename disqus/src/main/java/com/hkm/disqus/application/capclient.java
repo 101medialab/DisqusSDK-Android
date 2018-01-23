@@ -32,7 +32,6 @@ public abstract class capclient extends AsyncTask<Void, Void, String> {
     protected String errorMessage, submission_body_json, url;
     public static final MediaType JSON = MediaType.parse("application/json; charset=utf-8");
     protected static String TAG = "call.api";
-    protected Context ctx;
 
     private final OkHttpClient client = new OkHttpClient();
     protected callback mcallback;
@@ -49,9 +48,6 @@ public abstract class capclient extends AsyncTask<Void, Void, String> {
         IDEL, PROCESSING, COMPLETE
     }
 
-    protected Context getCtx() {
-        return ctx;
-    }
 
     private static final long HTTP_CACHE_SIZE = 16 * 1024 * 1024;
 
@@ -80,9 +76,8 @@ public abstract class capclient extends AsyncTask<Void, Void, String> {
         }
     }*/
 
-    public capclient(Context ccc, callback cb) {
+    public capclient(callback cb) {
 
-        ctx = ccc;
         mcallback = cb;
         _mstatus = status.IDEL;
         configOkClient(client);

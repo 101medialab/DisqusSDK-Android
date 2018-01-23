@@ -30,8 +30,8 @@ public class authorizeAccessToken extends capclient {
         void gparser(AccessToken data);
     }
 
-    public authorizeAccessToken(Context ccc, RequestBody postRequestBody, callback cb, gsonCallBack gb) {
-        super(ccc, cb);
+    public authorizeAccessToken(RequestBody postRequestBody, callback cb, gsonCallBack gb) {
+        super(cb);
         mgsonCallBack = gb;
         _requestBody = postRequestBody;
         try {

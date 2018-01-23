@@ -22,7 +22,6 @@ import retrofit.Callback;
  */
 public class DisqusClient extends ApiClient {
     public static final int authorization_intent_id = 9392;
-    private Context mcontent;
     private static AuthTokenServiceManager instance_am;
     private static DisqusClient main_instance;
 
@@ -51,7 +50,6 @@ public class DisqusClient extends ApiClient {
      */
     public DisqusClient(ApiConfig config, Context context) {
         super(config);
-        mcontent = context;
         if (instance_am == null) {
             instance_am = createAuthenticationManager(context);
         }

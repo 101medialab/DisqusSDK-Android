@@ -67,7 +67,7 @@ public class AuthTokenServiceManager {
 
                 RequestBody rb = AuthorizeUtils.buildRequest(code, config.getApiKey(), config.getApiSecret(), config.getRedirectURI());
 
-                new authorizeAccessToken(appContext, rb, new capclient.callback() {
+                new authorizeAccessToken(rb, new capclient.callback() {
                     @Override
                     public void onSuccess(String data) {
                         Log.d(TAG, "Acquiring Code Success final: " + data);
